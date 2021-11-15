@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" /> 
+  <title>Bulls&Cows</title>
+  </head>
+  <body class="page">
+  </head> 
+  <body>
+   
+    <div id="zatemnenie">
+      <div id="okno">
+        Компьютер загадывает случайное число из 4 разных цифр
+        Вы вводите 4-х значное число с разными цифрами
+        Компьтер отображает результат (введённое число: сколько быков, сколько коров)
+        Пример: загадано 1234, введено 1345, результат: 1 бык (единица угадана на своём месте) и 2 коровы (3 и 4 
+        присутствуют но не на своих местах)
+        Главная цель - 4 Быка!!! Необходимо угадать все цифры на своих местах.
+        <a href="#" class="close">Закрыть окно</a>
+      </div>
+    </div>
+     
+    <a href="#zatemnenie">Вызвать правила игры</a>
+     
+    <h2 class="game">Игра Быки и Коровы</h2>
+   
+  
+    <button class="start-button">Нажми начать игру</button>
+<script>
+let numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const enterNumbers = 'Please enter some four different numbers... \nExample: 1234';
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    let temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+}
+let secretPcNumber = shuffleArray(numbers).slice(0, 4).join('');
+
+function startGame(userValue) {
+  userValue = prompt(enterNumbers);
+  let scoreBulls, 
+      scoreCows;
+  while (scoreBulls !== 4) {
+    scoreCows = 0;
+    scoreBulls = 0;
+    if (userValue === null) {
+      alert('Sad... GoodBye!');
+      return;
+    }
+    for (let i = 0; i < secretPcNumber.length; i++) {
+      if (userValue[i] === secretPcNumber[i]) {
+        scoreBulls++;
+        scoreCows--;
+
+      if (userValue.length !== 4) {
+      alert('Enter four!! numbers to start the game...');
+    }    
+      }
+      if (secretPcNumber.includes(userValue[i])) {
+        scoreCows++;
+      }
+    }
+    if (scoreBulls === 4) {
+      alert(`You win!\nYou have ${scoreBulls} Bulls!!!`);
+      return;
+    }
+   
+    for (let i = 0; i < userValue.length; i++) {
+      let sortedUserData = userValue.split('').sort().join('');
+      if (sortedUserData[i] === sortedUserData[i + 1]) {
+        alert('You entered repeated digits.\nPlease enter different!! numbers to start the game...');
+        userValue = prompt(enterNumbers || null);
+      }
+    }
+    alert(`Your value: ${userValue}\nYour result => ${scoreBulls} Bulls and ${scoreCows} Cows.\n`);
+    userValue = prompt(enterNumbers || null);
+  }
+}
+
+document.querySelector('.start-button').addEventListener('click', startGame);
+</script> 
+  </body>
+</html>
